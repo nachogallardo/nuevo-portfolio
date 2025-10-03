@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-banner",
+      "description": "Abstract stylized code for hero banner",
+      "imageUrl": "https://images.unsplash.com/photo-1550438496-8c6e269e7886?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGNvZGV8ZW58MHx8fHwxNzU5MzI5MzI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract code"
+    },
+    {
+      "id": "projects-hero",
+      "description": "Desktop with code and multiple screens",
+      "imageUrl": "https://images.unsplash.com/photo-1605379399642-870262d3d051?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkZXZlbG9wZXIlMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzYwNDYxNzMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "developer workspace"
+    },
+    {
+      "id": "project-1",
+      "description": "Modern building architecture",
+      "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmaW5hbmNlJTIwbWFuYWdlbWVudCUyMGFwcHxlbnwwfHx8fDE3NjA0NjE4MDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "building management"
+    },
+    {
+      "id": "project-2",
+      "description": "Trendy clothes on a rack",
+      "imageUrl": "https://images.unsplash.com/photo-1445205170230-053b83016050?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZWNvbW1lcmNlfGVufDB8fHx8MTc2MDQ2MTgzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion ecommerce"
+    },
+    {
+      "id": "project-3",
+      "description": "Smart home interface on a tablet",
+      "imageUrl": "https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWFydCUyMGhvbWUlMjBhcHB8ZW58MHx8fHwxNzYwNDYxODU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smart home"
+    }
+  ]
+}
