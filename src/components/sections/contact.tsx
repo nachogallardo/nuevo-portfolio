@@ -318,7 +318,7 @@ export function ContactSection() {
                       <div className="flex justify-center">
                         <HCaptcha
                           ref={hcaptchaRef}
-                          sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || '00000000-0000-0000-0000-000000000000'}
+                          sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001'}
                           onVerify={handleHCaptchaChange}
                           onExpire={handleHCaptchaExpired}
                           onError={handleHCaptchaError}
