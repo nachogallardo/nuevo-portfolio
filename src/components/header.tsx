@@ -25,9 +25,11 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
+  const showProjects = process.env.NEXT_PUBLIC_SHOW_PROJECTS === 'true';
+
   const navLinks = [
     { href: "/#habilidades", text: "Habilidades" },
-    { href: "/#proyectos", text: "Proyectos" },
+    ...(showProjects ? [{ href: "/#proyectos", text: "Proyectos" }] : []),
     { href: "/#contacto", text: "Contacto" },
   ];
 

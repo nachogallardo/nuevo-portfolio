@@ -3,12 +3,24 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Linkedin, Github, MessageCircle, MapPin, Clock } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Mail, Linkedin, Github, MessageCircle, MapPin, Clock, Send, CheckCircle, AlertCircle, Shield } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
+import { toast } from '@/hooks/use-toast';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 
 export function ContactSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaError, setRecaptchaError] = useState('');
   const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,10 +64,72 @@ export function ContactSection() {
   ];
 
   const info = [
-    { icon: MapPin, text: "Madrid, España" },
+    { icon: MapPin, text: "Sevilla, España" },
     { icon: Clock, text: "Disponible para proyectos" },
     { icon: MessageCircle, text: "Respuesta rápida" }
   ];
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+    setRecaptchaError('');
+  };
+
+  const handleRecaptchaExpired = () => {
+    setRecaptchaToken(null);
+    setRecaptchaError('La verificación ha expirado. Por favor, inténtalo de nuevo.');
+  };
+
+  const handleRecaptchaError = () => {
+    setRecaptchaToken(null);
+    setRecaptchaError('Error en la verificación. Por favor, inténtalo de nuevo.');
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Validar reCAPTCHA
+    if (!recaptchaToken) {
+      setRecaptchaError('Por favor, completa la verificación de seguridad.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setRecaptchaError('');
+
+    const formData = new FormData(e.currentTarget);
+    // Agregar el token de reCAPTCHA al formulario
+    formData.append('g-recaptcha-response', recaptchaToken);
+    
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        toast({
+          title: "¡Mensaje enviado!",
+          description: "Gracias por contactarme. Te responderé pronto.",
+        });
+        formRef.current?.reset();
+        setRecaptchaToken(null);
+        recaptchaRef.current?.reset();
+      } else {
+        throw new Error('Error al enviar el mensaje');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      toast({
+        title: "Error al enviar",
+        description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section ref={sectionRef} id="contacto" className="py-16 md:py-24 bg-gradient-to-br from-background via-card/20 to-background relative overflow-hidden">
@@ -84,38 +158,218 @@ export function ContactSection() {
             </p>
           </div>
 
-          {/* Métodos de contacto */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {/* Formulario de contacto */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            {/* Información de contacto */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="font-headline text-2xl font-bold text-foreground">
+                  Información de Contacto
+                </h3>
+                <p className="text-muted-foreground">
+                  Puedes contactarme a través de cualquiera de estos medios o usar el formulario.
+                </p>
+              </div>
+
+              <div className="space-y-4">
             {contactMethods.map((method, index) => (
               <Card 
                 key={method.title}
                 className={`group bg-background/80 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-500 hover-lift ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{transitionDelay: `${0.3 + index * 0.1}s`}}
               >
-                <CardContent className="p-6 text-center">
-                  <div className={`inline-flex p-4 rounded-full bg-gradient-to-r ${method.color} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <method.icon size={24} />
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`p-3 rounded-lg bg-gradient-to-r ${method.color} text-white group-hover:scale-110 transition-transform duration-300`}>
+                          <method.icon size={20} />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                        <div className="flex-1">
+                          <h4 className="font-semibold group-hover:text-primary transition-colors">
                     {method.title}
+                          </h4>
+                          <p className="text-muted-foreground text-sm">
+                            {method.description}
+                          </p>
+                        </div>
+                        <Button 
+                          asChild 
+                          variant="ghost" 
+                          size="sm"
+                          className="hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                        >
+                          <Link href={method.href} target={method.title !== "Email" ? "_blank" : undefined} rel="noopener noreferrer">
+                            <method.icon className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Formulario */}
+            <Card className={`bg-background/80 backdrop-blur-sm border border-border/50 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{transitionDelay: '0.4s'}}>
+              <CardContent className="p-6">
+                <div className="space-y-4 mb-6">
+                  <h3 className="font-headline text-2xl font-bold text-foreground">
+                    Envíame un Mensaje
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    {method.description}
+                  <p className="text-muted-foreground">
+                    Completa el formulario y me pondré en contacto contigo lo antes posible.
                   </p>
+                </div>
+
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                  {/* Access key oculto */}
+                  <input type="hidden" name="access_key" value="7c701178-aa59-46a6-ad93-f92fba874bb3" />
+                  
+                  {/* Honeypot para protección anti-spam */}
+                  <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
+
+                  {/* Nombre */}
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nombre *</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="Tu nombre completo"
+                      className="bg-background/50 border-border/50 focus:border-primary transition-colors"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="tu@email.com"
+                      className="bg-background/50 border-border/50 focus:border-primary transition-colors"
+                    />
+                  </div>
+
+                  {/* Asunto */}
+                  <div className="space-y-2">
+                    <Label htmlFor="subject">Asunto *</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      type="text"
+                      required
+                      placeholder="¿En qué puedo ayudarte?"
+                      className="bg-background/50 border-border/50 focus:border-primary transition-colors"
+                    />
+                  </div>
+
+                  {/* Mensaje */}
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Mensaje *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      required
+                      placeholder="Cuéntame sobre tu proyecto o consulta..."
+                      rows={5}
+                      className="bg-background/50 border-border/50 focus:border-primary transition-colors resize-none"
+                    />
+                  </div>
+
+                  {/* Google reCAPTCHA */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-primary" />
+                      <Label className="text-sm font-medium">Verificación de Seguridad *</Label>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/20 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm font-medium text-muted-foreground">
+                          Protección anti-spam de Google
+                        </span>
+                      </div>
+                      
+                      {/* Widget de reCAPTCHA */}
+                      <div className="flex justify-center">
+                        <ReCAPTCHA
+                          ref={recaptchaRef}
+                          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                          onChange={handleRecaptchaChange}
+                          onExpired={handleRecaptchaExpired}
+                          onError={handleRecaptchaError}
+                          theme="dark"
+                          size="normal"
+                        />
+                      </div>
+                      
+                      {/* Mensaje de error */}
+                      {recaptchaError && (
+                        <div className="mt-3 flex items-center gap-2 text-red-500 text-sm bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                          <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                          <span>{recaptchaError}</span>
+                        </div>
+                      )}
+                      
+                      {/* Indicador de estado */}
+                      <div className="mt-3 flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                          <span>Protegiendo contra bots</span>
+                        </div>
+                        {recaptchaToken && (
+                          <div className="flex items-center gap-1 text-green-500 text-xs">
+                            <CheckCircle className="h-3 w-3" />
+                            <span>Verificado</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      🔒 Esta verificación es proporcionada por Google reCAPTCHA para proteger contra spam y bots.
+                    </p>
+                  </div>
+
+                  {/* Botón de envío */}
                   <Button 
-                    asChild 
-                    variant="outline" 
-                    size="sm"
-                    className="w-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 transition-all duration-300 hover:scale-105 hover-glow"
                   >
-                    <Link href={method.href} target={method.title !== "Email" ? "_blank" : undefined} rel="noopener noreferrer">
-                      <method.icon className="mr-2 h-4 w-4" />
-                      {method.title === "Email" ? "Enviar Email" : `Ver ${method.title}`}
-                    </Link>
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Enviar Mensaje
+                      </>
+                    )}
                   </Button>
+
+                  {/* Estado del envío */}
+                  {submitStatus === 'success' && (
+                    <div className="flex items-center gap-2 text-green-600 text-sm">
+                      <CheckCircle className="h-4 w-4" />
+                      ¡Mensaje enviado correctamente!
+                    </div>
+                  )}
+                  {submitStatus === 'error' && (
+                    <div className="flex items-center gap-2 text-red-600 text-sm">
+                      <AlertCircle className="h-4 w-4" />
+                      Error al enviar el mensaje
+                    </div>
+                  )}
+                </form>
                 </CardContent>
               </Card>
-            ))}
           </div>
 
           {/* Información adicional */}
@@ -130,29 +384,6 @@ export function ContactSection() {
             ))}
           </div>
 
-          {/* CTA principal */}
-          <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{transitionDelay: '0.8s'}}>
-            <Card className="inline-block p-8 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border border-primary/20">
-              <CardContent className="space-y-4">
-                <h3 className="font-headline text-2xl font-bold text-foreground">
-                  ¿Listo para crear algo increíble?
-                </h3>
-                <p className="text-muted-foreground max-w-md">
-                  Estoy disponible para discutir tu proyecto y ayudarte a convertir tus ideas en realidad.
-                </p>
-                <Button 
-                  asChild 
-                  size="lg" 
-                  className="bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 transition-all duration-300 hover:scale-105 hover-glow"
-                >
-                  <Link href="mailto:nachogallardosanchez@gmail.com">
-                    <Mail className="mr-2 h-5 w-5" />
-                    Enviar Mensaje
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </section>

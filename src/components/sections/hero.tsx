@@ -11,6 +11,7 @@ const heroImage = PlaceHolderImages.find(img => img.id === 'hero-banner');
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const showProjects = process.env.NEXT_PUBLIC_SHOW_PROJECTS === 'true';
 
   useEffect(() => {
     setIsVisible(true);
@@ -65,23 +66,25 @@ export function HeroSection() {
           </p>
           
           <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-gradient-to-r from-accent to-primary text-white hover:from-accent/90 hover:to-primary/90 transform hover:scale-105 transition-all duration-300 hover-glow animate-slide-up"
-              style={{animationDelay: '0.9s'}}
-            >
-              <Link href="/proyectos">
-                <Briefcase className="mr-2 h-5 w-5" />
-                Mis Proyectos
-              </Link>
-            </Button>
+            {showProjects && (
+              <Button 
+                asChild 
+                size="lg" 
+                className="bg-gradient-to-r from-accent to-primary text-white hover:from-accent/90 hover:to-primary/90 transform hover:scale-105 transition-all duration-300 hover-glow animate-slide-up"
+                style={{animationDelay: '0.9s'}}
+              >
+                <Link href="/proyectos">
+                  <Briefcase className="mr-2 h-5 w-5" />
+                  Mis Proyectos
+                </Link>
+              </Button>
+            )}
             <Button 
               asChild 
               size="lg" 
               variant="outline" 
               className="border-2 border-primary/50 text-primary hover:bg-primary hover:text-white glass-effect-dark hover:border-primary transform hover:scale-105 transition-all duration-300 animate-slide-up"
-              style={{animationDelay: '1.2s'}}
+              style={{animationDelay: showProjects ? '1.2s' : '0.9s'}}
             >
               <Link href="#contacto">
                 Hablemos

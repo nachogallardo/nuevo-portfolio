@@ -5,12 +5,14 @@ import { ProjectsSection } from '@/components/sections/projects';
 import { SkillsSection } from '@/components/sections/skills';
 
 export default function Home() {
+  const showProjects = process.env.NEXT_PUBLIC_SHOW_PROJECTS === 'true';
+
   return (
     <>
       <HeroSection />
       <AboutSection />
       <SkillsSection />
-      <ProjectsSection />
+      {showProjects && <ProjectsSection />}
       <ContactSection />
     </>
   );

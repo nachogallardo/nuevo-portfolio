@@ -119,10 +119,12 @@ portfolio/
 - Filtros por tecnología
 
 ### 📞 Contact Section
-- Formulario de contacto funcional
-- Información de contacto
-- Enlaces a redes sociales
-- Validación de formularios
+- **Formulario de contacto con Web3Forms**: Integración con API externa para envío de emails
+- **Google reCAPTCHA v2**: Protección anti-spam profesional con verificación visual
+- **Validación de formularios**: Campos requeridos y validación de email
+- **Estados de envío**: Feedback visual para éxito/error del envío
+- **Información de contacto**: Enlaces directos a email, LinkedIn y GitHub
+- **Ubicación actualizada**: Sevilla, España
 
 ## 🎯 Scripts Disponibles
 
@@ -147,6 +149,49 @@ npm run lint
 
 # Verificación de tipos
 npm run typecheck
+```
+
+## ⚙️ Variables de Entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
+
+```env
+# Variables de entorno para el portfolio
+# Cambia a false para ocultar la sección de proyectos
+NEXT_PUBLIC_SHOW_PROJECTS=true
+
+# Google reCAPTCHA Configuration
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key_here
+```
+
+### Variables Disponibles:
+- **`NEXT_PUBLIC_SHOW_PROJECTS`**: Controla si se muestra la sección de proyectos (`true`/`false`)
+- **`NEXT_PUBLIC_RECAPTCHA_SITE_KEY`**: Clave pública de Google reCAPTCHA para el formulario de contacto
+
+## 🔐 Configuración de Google reCAPTCHA
+
+Para usar el formulario de contacto, necesitas configurar Google reCAPTCHA:
+
+### 1. Crear cuenta en Google reCAPTCHA
+1. Ve a [Google reCAPTCHA](https://www.google.com/recaptcha/admin)
+2. Inicia sesión con tu cuenta de Google
+3. Haz clic en "Crear" para agregar un nuevo sitio
+
+### 2. Configurar el sitio
+- **Etiqueta**: Nombre descriptivo (ej: "Mi Portfolio")
+- **Tipo de reCAPTCHA**: reCAPTCHA v2 → "No soy un robot"
+- **Dominios**: 
+  - Para desarrollo: `localhost`
+  - Para producción: `tudominio.com`
+- **Acepta** los términos de servicio
+
+### 3. Obtener las claves
+- **Clave del sitio**: Esta va en `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
+- **Clave secreta**: No se necesita para este proyecto (Web3Forms maneja la validación)
+
+### 4. Configurar en el proyecto
+```env
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6LcXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ## 🎨 Personalización
