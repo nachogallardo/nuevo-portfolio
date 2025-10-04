@@ -101,35 +101,18 @@ export function ContactSection() {
     try {
       const formData = new FormData(e.currentTarget);
       
-      // Agregar access_key de Web3Forms
-      formData.append('access_key', '7c701178-aa59-46a6-ad93-f92fba874bb3');
-      
-      // Agregar token de hCaptcha
-      formData.append('h-captcha-response', hcaptchaToken);
-      
       // Evitar que datos de autofill interfieran
       formData.delete('username');
       formData.delete('password');
       
-      console.log('Enviando formulario...', {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        subject: formData.get('subject'),
-        hasCaptcha: !!hcaptchaToken
-      });
-      
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-        },
         body: formData,
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Formulario enviado:', result);
-        
+      const result = await response.json();
+
+      if (result.success) {
         setSubmitStatus('success');
         toast({
           title: "¡Mensaje enviado!",
@@ -141,23 +124,26 @@ export function ContactSection() {
         setHcaptchaToken(null);
         hcaptchaRef.current?.resetCaptcha();
       } else {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch {
-          errorData = await response.text();
-        }
-        console.error('Error del servidor:', response.status, errorData);
-        throw new Error(`Error ${response.status}: ${response.statusText || 'Fallo en el envío'}`);
+        throw new Error(result.message || 'Error al enviar el formulario');
       }
     } catch (error) {
-      console.error('Error en handleSubmit:', error);
       setSubmitStatus('error');
+      
+      let errorMessage = "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Error al enviar",
-        description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
+        description: errorMessage,
         variant: "destructive",
       });
+      
+      // Resetear captcha en caso de error
+      setHcaptchaToken(null);
+      hcaptchaRef.current?.resetCaptcha();
     } finally {
       setIsSubmitting(false);
     }
@@ -248,7 +234,7 @@ export function ContactSection() {
                 </div>
 
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
-                  <input type="hidden" name="access_key" value="7c701178-aa59-46-a6-ad93-f92fba874bb3" />
+                  <input type="hidden" name="access_key" value={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || ''} />
                   <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
                   {/* Campos fantasma para evitar autofill */}
                   <input type="text" name="username" autoComplete="username" style={{display: 'none'}} tabIndex={-1} />
@@ -360,13 +346,18 @@ export function ContactSection() {
 
                   <Button 
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 transition-all duration-300 hover:scale-105 hover-glow"
+                    disabled={isSubmitting || !hcaptchaToken}
+                    className="w-full bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 transition-all duration-300 hover:scale-105 hover-glow disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                         Enviando...
+                      </>
+                    ) : !hcaptchaToken ? (
+                      <>
+                        <Shield className="mr-2 h-4 w-4" />
+                        Completa la verificación
                       </>
                     ) : (
                       <>

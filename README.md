@@ -49,13 +49,26 @@ El formulario de contacto utiliza **hCaptcha** para protección anti-spam:
 
 ### 📋 **Configuración:**
 
-El proyecto ya incluye una clave pública de desarrollador (`00000000-0000-0000-0000-000000000000`) que funciona inmediatamente.
+#### **Variables de entorno necesarias:**
 
-Para producción, puedes:
+```bash
+# .env.local
+NEXT_PUBLIC_SHOW_PROJECTS=true
+NEXT_PUBLIC_HCAPTCHA_SITE_KEY=tu_clave_de_hcaptcha
+NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=tu_clave_de_web3forms
+```
+
+#### **Para hCaptcha:**
 1. Ir a [hCaptcha.com](https://hcaptcha.com)
 2. Crear una cuenta gratuita
-3. Obtener tu propia clave pública
-4. Actualizar `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` en tus variables de entorno
+3. Obtener tu clave pública (sitekey)
+4. Actualizar `NEXT_PUBLIC_HCAPTCHA_SITE_KEY`
+
+#### **Para Web3Forms:**
+1. Ir a [Web3Forms.com](https://web3forms.com)
+2. Crear una cuenta gratuita
+3. Obtener tu access key
+4. Actualizar `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`
 
 ### 2. Prerrequisitos
 - Node.js 18+ 

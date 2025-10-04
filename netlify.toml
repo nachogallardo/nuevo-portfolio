@@ -4,6 +4,11 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+# Environment variables needed (set in Netlify UI):
+# NEXT_PUBLIC_SHOW_PROJECTS=true
+# NEXT_PUBLIC_HCAPTCHA_SITE_KEY=your_hcaptcha_site_key
+# NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your_web3forms_access_key
   
 # Redirect rules for SPA
 [[redirects]]
