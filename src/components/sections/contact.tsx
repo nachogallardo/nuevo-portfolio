@@ -86,6 +86,9 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    // Prevenir múltiples envíos
+    if (isSubmitting) return;
+    
     if (!hcaptchaToken) {
       setHcaptchaError('Por favor, completa la verificación de seguridad.');
       return;
@@ -95,36 +98,48 @@ export function ContactSection() {
     setSubmitStatus('idle');
     setHcaptchaError('');
 
-    const formData = new FormData(e.currentTarget);
-    formData.append('h-captcha-response', hcaptchaToken);
-    
     try {
+      const formData = new FormData(e.currentTarget);
+      formData.append('h-captcha-response', hcaptchaToken);
+      
+      // Evitar que datos de autofill interfieran
+      formData.delete('username');
+      formData.delete('password');
+      
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('Formulario enviado:', result);
+        
         setSubmitStatus('success');
         toast({
           title: "¡Mensaje enviado!",
           description: "Gracias por contactarme. Te responderé pronto.",
         });
+        
+        // Resetear formulario
         formRef.current?.reset();
         setHcaptchaToken(null);
-        hcaptchaRef.current?.reset();
+        hcaptchaRef.current?.resetCaptcha();
       } else {
-      throw new Error('Error al enviar el mensaje');
+        const errorData = await response.text();
+        console.error('Error del servidor:', response.status, errorData);
+        throw new Error(`Error al enviar el mensaje (${response.status})`);
       }
     } catch (error) {
-    setSubmitStatus('error');
-    toast({
-      title: "Error al enviar",
-      description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
-      variant: "destructive",
-    });
+      console.error('Error en handleSubmit:', error);
+      setSubmitStatus('error');
+      toast({
+        title: "Error al enviar",
+        description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
     } finally {
-    setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -212,9 +227,12 @@ export function ContactSection() {
                   </p>
                 </div>
 
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
                   <input type="hidden" name="access_key" value="7c701178-aa59-46-a6-ad93-f92fba874bb3" />
                   <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
+                  {/* Campos fantasma para evitar autofill */}
+                  <input type="text" name="username" autoComplete="username" style={{display: 'none'}} tabIndex={-1} />
+                  <input type="password" name="password" autoComplete="new-password" style={{display: 'none'}} tabIndex={-1} />
 
                   <div className="space-y-2">
                     <Label htmlFor="name">Nombre *</Label>
@@ -224,6 +242,7 @@ export function ContactSection() {
                       type="text"
                       required
                       placeholder="Tu nombre completo"
+                      autoComplete="off"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors"
                     />
                   </div>
@@ -236,6 +255,7 @@ export function ContactSection() {
                       type="email"
                       required
                       placeholder="tu@email.com"
+                      autoComplete="off"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors"
                     />
                   </div>
@@ -248,6 +268,7 @@ export function ContactSection() {
                       type="text"
                       required
                       placeholder="¿En qué puedo ayudarte?"
+                      autoComplete="off"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors"
                     />
                   </div>
@@ -260,6 +281,7 @@ export function ContactSection() {
                       required
                       placeholder="Cuéntame sobre tu proyecto o consulta..."
                       rows={5}
+                      autoComplete="off"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors resize-none"
                     />
                   </div>

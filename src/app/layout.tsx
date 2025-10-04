@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   keywords: ['Java Developer', 'Spring Boot', 'Microservicios', 'Portfolio', 'Desarrollador Java', 'Oracle Certified'],
   authors: [{ name: 'Ignacio Gallardo Sánchez' }],
   creator: 'Ignacio Gallardo Sánchez',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'es_ES',
@@ -45,6 +50,8 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark scroll-smooth" style={{ scrollBehavior: 'smooth' }}>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.svg" type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />

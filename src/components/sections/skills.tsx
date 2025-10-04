@@ -2,35 +2,40 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, Database, Wrench, Rocket, Users } from 'lucide-react';
+import { Code, Database, Wrench, Rocket, Users, Network } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 
 
 const skillCategories = {
   "Lenguajes": {
-    skills: ["Java", "SQL", "C#", "HTML/CSS", "JavaScript/JQuery"],
+    skills: ["Java", "C#", "JavaScript", "TypeScript", "HTML/CSS", "SQL"],
     icon: Code,
     color: "from-blue-500 to-cyan-500"
   },
-  "Frameworks y Plataformas": {
-    skills: ["Spring Boot", "Jakarta EE", "JPA/Hibernate", "Microservicios", "REST API", "React.js", "Bootstrap", "Backbone.js"],
+  "Frameworks y Librerías": {
+    skills: ["Spring Boot", "React", "Next.js", "JPA/Hibernate", "Jakarta EE", "Bootstrap", "Tailwind CSS", "jQuery", "Backbone.js"],
     icon: Rocket,
     color: "from-purple-500 to-pink-500"
   },
   "Bases de Datos": {
-    skills: ["MySQL", "Oracle", "DB2", "MongoDB"],
+    skills: ["MySQL", "Oracle", "DB2", "MongoDB", "PostgreSQL"],
     icon: Database,
     color: "from-green-500 to-emerald-500"
   },
-  "Herramientas y Tecnologías": {
-    skills: ["Docker", "Maven", "Git/Github", "Jenkins", "JUnit", "Postman", "Swagger", "Sonar", "WebLogic"],
+  "Herramientas y DevOps": {
+    skills: ["Docker", "Maven", "Git/GitHub", "Jenkins", "CI/CD", "JUnit", "Postman", "Swagger", "SonarQube", "WebLogic"],
     icon: Wrench,
     color: "from-orange-500 to-red-500"
   },
-  "Metodologías": {
-    skills: ["CI/CD", "Agile", "Scrum"],
-    icon: Users,
+  "Servicios y APIs": {
+    skills: ["REST API", "GraphQL", "Microservicios", "WebServices", "RESTful Services"],
+    icon: Network,
     color: "from-indigo-500 to-blue-500"
+  },
+  "Metodologías": {
+    skills: ["Agile", "Scrum", "DevOps", "Test-Driven Development", "Object-Oriented Programming"],
+    icon: Users,
+    color: "from-teal-500 to-green-500"
   },
 };
 
@@ -80,7 +85,7 @@ export function SkillsSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {Object.entries(skillCategories).map(([category, data], index) => (
               <Card 
                 key={category} 
