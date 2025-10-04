@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -56,16 +56,16 @@ export function ContactSection() {
     {
       icon: Github,
       title: "GitHub",
-      description: "Ve mi código en acción",
+      description: "Ve mi cdigo en accin",
       href: "https://github.com/nachogallardo",
       color: "from-gray-700 to-gray-900"
     }
   ];
 
   const info = [
-    { icon: MapPin, text: "Sevilla, España" },
+    { icon: MapPin, text: "Sevilla, Espaa" },
     { icon: Clock, text: "Disponible para proyectos" },
-    { icon: MessageCircle, text: "Respuesta rápida" }
+    { icon: MessageCircle, text: "Respuesta rpida" }
   ];
 
   const handleHCaptchaChange = (token: string | null) => {
@@ -75,19 +75,20 @@ export function ContactSection() {
 
   const handleHCaptchaExpired = () => {
     setHcaptchaToken(null);
-    setHcaptchaError('La verificación ha expirado. Por favor, inténtalo de nuevo.');
+    setHcaptchaError('La verificacin ha expirado. Por favor, intntalo de nuevo.');
   };
 
   const handleHCaptchaError = () => {
     setHcaptchaToken(null);
-    setHcaptchaError('Error en la verificación. Por favor, inténtalo de nuevo.');
+    setHcaptchaError('Error en la verificacin. Por favor, intntalo de nuevo.');
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    // Validar hCaptcha
     if (!hcaptchaToken) {
-      setHcaptchaError('Por favor, completa la verificación de seguridad.');
+      setHcaptchaError('Por favor, completa la verificacin de seguridad.');
       return;
     }
 
@@ -96,6 +97,7 @@ export function ContactSection() {
     setHcaptchaError('');
 
     const formData = new FormData(e.currentTarget);
+    // Agregar el token de hCaptcha al formulario
     formData.append('h-captcha-response', hcaptchaToken);
     
     try {
@@ -107,29 +109,30 @@ export function ContactSection() {
       if (response.ok) {
         setSubmitStatus('success');
         toast({
-          title: "¡Mensaje enviado!",
-          description: "Gracias por contactarme. Te responderé pronto.",
+          title: "Mensaje enviado!",
+          description: "Gracias por contactarme. Te responder pronto.",
         });
         formRef.current?.reset();
         setHcaptchaToken(null);
         hcaptchaRef.current?.reset();
       } else {
-      throw new Error('Error al enviar el mensaje');
+        throw new Error('Error al enviar el mensaje');
       }
     } catch (error) {
-    setSubmitStatus('error');
-    toast({
-      title: "Error al enviar",
-      description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
-      variant: "destructive",
-    });
+      setSubmitStatus('error');
+      toast({
+        title: "Error al enviar",
+        description: "Hubo un problema al enviar tu mensaje. Intntalo de nuevo.",
+        variant: "destructive",
+      });
     } finally {
-    setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
     <section ref={sectionRef} id="contacto" className="py-16 md:py-24 bg-gradient-to-br from-background via-card/20 to-background relative overflow-hidden">
+      {/* Fondo decorativo */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
@@ -137,6 +140,7 @@ export function ContactSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
+          {/* Header */}
           <div className="text-center mb-16">
             <div className={`inline-flex items-center gap-2 mb-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <MessageCircle className="text-primary" size={24} />
@@ -144,23 +148,25 @@ export function ContactSection() {
             </div>
             <h2 className={`font-headline text-3xl font-bold tracking-tighter sm:text-4xl mb-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{transitionDelay: '0.1s'}}>
               <span className="text-gradient bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent">
-                ¡Trabajemos Juntos!
+                Trabajemos Juntos!
               </span>
             </h2>
             <p className={`text-muted-foreground text-lg max-w-2xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{transitionDelay: '0.2s'}}>
-              ¿Interesado en colaborar? Contáctame a través de cualquiera de estos medios. 
+              Interesado en colaborar? Contctame a travs de cualquiera de estos medios. 
               <span className="text-primary font-medium"> Estoy disponible para nuevos proyectos y oportunidades.</span>
             </p>
           </div>
 
+          {/* Formulario de contacto */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            {/* Informacin de contacto */}
             <div className="space-y-8">
               <div className="space-y-4">
                 <h3 className="font-headline text-2xl font-bold text-foreground">
-                  Información de Contacto
+                  Informacin de Contacto
                 </h3>
                 <p className="text-muted-foreground">
-                  Puedes contactarme a través de cualquiera de estos medios o usar el formulario.
+                  Puedes contactarme a travs de cualquiera de estos medios o usar el formulario.
                 </p>
               </div>
 
@@ -201,21 +207,26 @@ export function ContactSection() {
               </div>
             </div>
 
+            {/* Formulario */}
             <Card className={`bg-background/80 backdrop-blur-sm border border-border/50 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{transitionDelay: '0.4s'}}>
               <CardContent className="p-6">
                 <div className="space-y-4 mb-6">
                   <h3 className="font-headline text-2xl font-bold text-foreground">
-                    Envíame solicitó
+                    Envame un Mensaje
                   </h3>
                   <p className="text-muted-foreground">
-                    Completa el formulario y me pondré en contacto contigo lo antes posible.
+                    Completa el formulario y me pondr en contacto contigo lo antes posible.
                   </p>
                 </div>
 
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                  <input type="hidden" name="access_key" value="7c701178-aa59-46-a6-ad93-f92fba874bb3" />
+                  {/* Access key oculto */}
+                  <input type="hidden" name="access_key"<toolcallbegin>value="7c701178-aa59-46a6-ad93-f92fba874bb3" />
+                  
+                  {/* Honeypot para proteccin anti-spam */}
                   <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
 
+                  {/* Nombre */}
                   <div className="space-y-2">
                     <Label htmlFor="name">Nombre *</Label>
                     <Input
@@ -228,18 +239,21 @@ export function ContactSection() {
                     />
                   </div>
 
+                  {/* Email */}
                   <div className="space-y-2">
                     <Label htmlFor="email">Email *</Label>
                     <Input
                       id="email"
                       name="email"
-                      type="email"
+
+type="email"
                       required
                       placeholder="tu@email.com"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors"
                     />
                   </div>
 
+                  {/* Asunto */}
                   <div className="space-y-2">
                     <Label htmlFor="subject">Asunto *</Label>
                     <Input
@@ -247,37 +261,40 @@ export function ContactSection() {
                       name="subject"
                       type="text"
                       required
-                      placeholder="¿En qué puedo ayudarte?"
+                      placeholder="En qu puedo ayudarte?"
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors"
                     />
                   </div>
 
+                  {/* Mensaje */}
                   <div className="space-y-2">
                     <Label htmlFor="message">Mensaje *</Label>
                     <Textarea
                       id="message"
                       name="message"
                       required
-                      placeholder="Cuéntame sobre tu proyecto o consulta..."
+                      placeholder="Cuntame sobre tu proyecto o consulta..."
                       rows={5}
                       className="bg-background/50 border-border/50 focus:border-primary transition-colors resize-none"
                     />
                   </div>
 
+                  {/* hCaptcha */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-primary" />
-                      <Label className="text-sm font-medium">Verificación de Seguridad *</Label>
+                      <Label className="text-sm font-medium">Verificacin de Seguridad *</Label>
                     </div>
                     
                     <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/20 rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                         <span className="text-sm font-medium text-muted-foreground">
-                          Protección anti-spam con hCaptcha
+                          Proteccin anti-spam con hCaptcha
                         </span>
                       </div>
                       
+                      {/* Widget de hCaptcha */}
                       <div className="flex justify-center">
                         <HCaptcha
                           ref={hcaptchaRef}
@@ -290,6 +307,7 @@ export function ContactSection() {
                         />
                       </div>
                       
+                      {/* Mensaje de error */}
                       {hcaptchaError && (
                         <div className="mt-3 flex items-center gap-2 text-red-500 text-sm bg-red-500/10 border border-red-500/20 rounded-lg p-3">
                           <AlertCircle className="h-4 w-4 flex-shrink-0" />
@@ -297,6 +315,7 @@ export function ContactSection() {
                         </div>
                       )}
                       
+                      {/* Indicador de estado */}
                       <div className="mt-3 flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
@@ -312,10 +331,11 @@ export function ContactSection() {
                     </div>
                     
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Esta verificación es proporcionada por hCaptcha para proteger contra spam y bots.
+                       Esta verificacin es proporcionada por hCaptcha para proteger contra spam y bots.
                     </p>
                   </div>
 
+                  {/* Botn de envo */}
                   <Button 
                     type="submit"
                     disabled={isSubmitting}
@@ -334,10 +354,11 @@ export function ContactSection() {
                     )}
                   </Button>
 
+                  {/* Estado del envo */}
                   {submitStatus === 'success' && (
                     <div className="flex items-center gap-2 text-green-600 text-sm">
                       <CheckCircle className="h-4 w-4" />
-                      ¡Mensaje enviado correctamente!
+                      Mensaje enviado correctamente!
                     </div>
                   )}
                   {submitStatus === 'error' && (
@@ -351,6 +372,7 @@ export function ContactSection() {
             </Card>
           </div>
 
+          {/* Informacin adicional */}
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{transitionDelay: '0.6s'}}>
             {info.map((item, index) => (
               <div key={item.text} className="flex items-center justify-center gap-3 p-4 bg-card/50 rounded-lg border border-border/30">

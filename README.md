@@ -27,6 +27,7 @@ Un portfolio moderno y elegante desarrollado con **Next.js 15**, **TypeScript** 
 - **PostCSS** - Procesador de CSS
 - **ESLint** - Linter para JavaScript/TypeScript
 - **Genkit** - Framework de IA para Google
+- **hCaptcha** - Sistema de verificación anti-spam gratuito
 
 ### Características Técnicas
 - **App Router** de Next.js 15
@@ -35,8 +36,28 @@ Un portfolio moderno y elegante desarrollado con **Next.js 15**, **TypeScript** 
 - **Fonts optimizadas** con Google Fonts
 - **Scroll suave** y navegación fluida
 
+## 🔐 Configuración de hCaptcha
 
-### Prerrequisitos
+El formulario de contacto utiliza **hCaptcha** para protección anti-spam:
+
+### ✅ **Ventajas de hCaptcha:**
+- ✅ **Completamente gratuito**
+- ✅ **No requiere configuración compleja**
+- ✅ **Funciona inmediatamente en desarrollo**
+- ✅ **Respetuoso con la privacidad**
+- ✅ **API simple y fácil de usar**
+
+### 📋 **Configuración:**
+
+El proyecto ya incluye una clave pública de desarrollador (`00000000-0000-0000-0000-000000000000`) que funciona inmediatamente.
+
+Para producción, puedes:
+1. Ir a [hCaptcha.com](https://hcaptcha.com)
+2. Crear una cuenta gratuita
+3. Obtener tu propia clave pública
+4. Actualizar `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` en tus variables de entorno
+
+### 2. Prerrequisitos
 - Node.js 18+ 
 - npm o yarn
 
