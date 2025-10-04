@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    'permissions-policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    'permissions-policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=(), private-state-token-redemption=*, private-state-token-issuance=*',
   },
 };
 
@@ -62,7 +62,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
         <meta name="theme-color" content="#0f172a" />
         <meta name="color-scheme" content="dark" />
-         <meta httpEquiv="permissions-policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
+         <meta httpEquiv="Permissions-Policy" content="private-state-token-redemption=*, private-state-token-issuance=*" />
       </head>
       <body className="font-body bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary cursor-none">
         <CustomCursor />

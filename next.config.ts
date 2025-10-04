@@ -34,8 +34,22 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-    ],
-  },
+  ],
+},
+  
+async headers() {
+  return [
+    {
+      source: '/(.*)',
+      headers: [
+        {
+          key: 'Permissions-Policy',
+          value: 'private-state-token-redemption=*, private-state-token-issuance=*',
+        },
+      ],
+    },
+  ];
+},
 };
 
 export default nextConfig;
