@@ -100,6 +100,11 @@ export function ContactSection() {
 
     try {
       const formData = new FormData(e.currentTarget);
+      
+      // Agregar access_key de Web3Forms
+      formData.append('access_key', '7c701178-aa59-46a6-ad93-f92fba874bb3');
+      
+      // Agregar token de hCaptcha
       formData.append('h-captcha-response', hcaptchaToken);
       
       // Evitar que datos de autofill interfieran
