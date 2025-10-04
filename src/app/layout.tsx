@@ -40,6 +40,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  other: {
+    'permissions-policy': 'private-state-token-redemption=*, private-state-token-issuance=*',
+  },
 };
 
 export default function RootLayout({
@@ -59,6 +62,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
         <meta name="theme-color" content="#0f172a" />
         <meta name="color-scheme" content="dark" />
+        <meta http-equiv="permissions-policy" content="private-state-token-redemption=*, private-state-token-issuance=*" />
       </head>
       <body className="font-body bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary cursor-none">
         <CustomCursor />

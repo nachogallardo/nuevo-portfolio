@@ -106,8 +106,18 @@ export function ContactSection() {
       formData.delete('username');
       formData.delete('password');
       
+      console.log('Enviando formulario...', {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        hasCaptcha: !!hcaptchaToken
+      });
+      
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
         body: formData,
       });
 
@@ -126,9 +136,14 @@ export function ContactSection() {
         setHcaptchaToken(null);
         hcaptchaRef.current?.resetCaptcha();
       } else {
-        const errorData = await response.text();
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = await response.text();
+        }
         console.error('Error del servidor:', response.status, errorData);
-        throw new Error(`Error al enviar el mensaje (${response.status})`);
+        throw new Error(`Error ${response.status}: ${response.statusText || 'Fallo en el envío'}`);
       }
     } catch (error) {
       console.error('Error en handleSubmit:', error);
