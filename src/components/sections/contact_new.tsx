@@ -205,7 +205,7 @@ export function ContactSection() {
               <CardContent className="p-6">
                 <div className="space-y-4 mb-6">
                   <h3 className="font-headline text-2xl font-bold text-foreground">
-                    Envíame solicitó
+                    Envíame solicitud de contacto
                   </h3>
                   <p className="text-muted-foreground">
                     Completa el formulario y me pondré en contacto contigo lo antes posible.
