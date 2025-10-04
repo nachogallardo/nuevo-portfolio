@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code, Database, Wrench, Rocket, Users } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 
+
 const skillCategories = {
   "Lenguajes": {
     skills: ["Java", "SQL", "C#", "HTML/CSS", "JavaScript/JQuery"],
