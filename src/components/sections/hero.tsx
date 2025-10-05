@@ -86,7 +86,7 @@ export function HeroSection() {
               className="border-2 border-primary/50 text-primary hover:bg-primary hover:text-white glass-effect-dark hover:border-primary transform hover:scale-105 transition-all duration-300 animate-slide-up"
               style={{animationDelay: showProjects ? '1.2s' : '0.9s'}}
             >
-              <Link href="#contacto">
+              <Link href="#contact">
                 Hablemos
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
