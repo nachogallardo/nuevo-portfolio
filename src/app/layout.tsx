@@ -64,7 +64,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="dark" />
          <meta httpEquiv="Permissions-Policy" content="private-state-token-redemption=*, private-state-token-issuance=*" />
       </head>
-      <body className="font-body bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary cursor-none">
+      <body className="font-body bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
         <CustomCursor />
         
         <Header />

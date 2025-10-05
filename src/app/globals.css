@@ -132,8 +132,11 @@
   }
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* Cursor personalizado - solo en desktop */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
 }
 
 /* Cursor personalizado */

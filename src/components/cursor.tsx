@@ -5,8 +5,20 @@ import { useEffect, useState } from 'react';
 export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    // Detectar si es un dispositivo de escritorio (con mouse)
+    const checkIsDesktop = () => {
+      setIsDesktop(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+    };
+
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+
+    // Solo configurar el cursor si es desktop
+    if (!isDesktop) return;
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -25,12 +37,16 @@ export function CustomCursor() {
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('resize', checkIsDesktop);
       interactiveElements.forEach(el => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  }, []);
+  }, [isDesktop]);
+
+  // No renderizar nada en dispositivos móviles
+  if (!isDesktop) return null;
 
   return (
     <>
