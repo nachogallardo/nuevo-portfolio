@@ -3,7 +3,7 @@
     {
       "id": "hero-banner",
       "description": "Abstract stylized code for hero banner",
-      "imageUrl": "/images/hero-banner.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1550438496-8c6e269e7886?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGNvZGV8ZW58MHx8fHwxNzU5MzI5MzI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "abstract code"
     },
     {
