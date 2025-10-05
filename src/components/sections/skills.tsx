@@ -28,7 +28,7 @@ const skillCategories = {
     color: "from-orange-500 to-red-500"
   },
   "Servicios y APIs": {
-    skills: ["REST API", "GraphQL", "Microservicios", "WebServices", "RESTful Services"],
+    skills: ["REST API", "Microservicios", "WebServices", "RESTful Services"],
     icon: Network,
     color: "from-indigo-500 to-blue-500"
   },
