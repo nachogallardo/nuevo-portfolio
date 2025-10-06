@@ -101,13 +101,14 @@ export function AboutSection() {
                 <Card className="p-6 bg-card/80 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover-lift relative z-10">
                   <CardContent className="flex flex-col items-center justify-center gap-6 text-center">
                     <div className="relative">
-                      <Image
-                        src="https://images.credly.com/images/be8fcaeb-c769-4afc-9897-1ae8f5f660e1/oracle-certified-professional-java-se-11-developer.png"
-                        alt="Oracle Certified Professional, Java SE 11 Developer Badge"
-                        width={180}
-                        height={180}
-                        className="group-hover:scale-110 transition-transform duration-500 animate-float"
-                      />
+                      <div className="w-[180px] h-[180px] bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-center p-4 shadow-2xl">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold mb-2">Oracle</div>
+                          <div className="text-sm font-semibold">Java SE 11</div>
+                          <div className="text-xs mt-1">Developer</div>
+                          <div className="text-xs mt-2 opacity-80">Certified</div>
+                        </div>
+                      </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
                     <div className="space-y-2">
