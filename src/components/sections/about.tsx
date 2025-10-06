@@ -101,7 +101,7 @@ export function AboutSection() {
                 <Card className="p-6 bg-card/80 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover-lift relative z-10">
                   <CardContent className="flex flex-col items-center justify-center gap-6 text-center">
                     <Image
-                      src="https://images.credly.com/images/be8fcaeb-c769-4afc-9897-1ae8f5f660e1/oracle-certified-professional-java-se-11-developer.png"
+                      src="/images/oracle-java-badge.png"
                       alt="Oracle Certified Professional, Java SE 11 Developer Badge"
                       width={180}
                       height={180}
