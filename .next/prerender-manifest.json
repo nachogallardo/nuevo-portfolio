@@ -1,6 +1,30 @@
 {
   "version": 4,
   "routes": {
+    "/proyectos": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/proyectos",
+      "dataRoute": "/proyectos.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/favicon.ico": {
       "initialHeaders": {
         "cache-control": "public, max-age=0, must-revalidate",
@@ -53,37 +77,13 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
-    },
-    "/proyectos": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/proyectos",
-      "dataRoute": "/proyectos.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "fd630b38b50085a89c8dcb5c3b8b2fc2",
-    "previewModeSigningKey": "1f867d5d36e696c415fc22c1adc249d99331a1ccdeecc2536010ab47f0754e9d",
-    "previewModeEncryptionKey": "59744b3c6528927965fff910f861b57286dbde623bcb27508c3d9f1978212552"
+    "previewModeId": "b85e095eef0b0f4fd1b455df423f00df",
+    "previewModeSigningKey": "4c36fb6393c8015add61ce9b5d04fffd077a10d3da40b4bcb09fc3fcfbea9f94",
+    "previewModeEncryptionKey": "be37e35849293a10d0982ccfcd6cb9c913daed71d5f038c2a3691abd01505a62"
   }
 }
