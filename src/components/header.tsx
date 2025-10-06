@@ -21,17 +21,29 @@ export function Header() {
     };
   }, []);
   
-  const handleLinkClick = () => {
+  const handleLinkClick = (href: string) => {
     setIsMenuOpen(false);
+    
+    // Smooth scroll to section
+    if (href.startsWith('#')) {
+      const elementId = href.substring(1);
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
   };
 
   const showProjects = process.env.NEXT_PUBLIC_SHOW_PROJECTS === 'true';
 
   const navLinks = [
-    { href: "/#about", text: "Sobre mí" },
-    { href: "/#habilidades", text: "Habilidades" },
-    ...(showProjects ? [{ href: "/#proyectos", text: "Proyectos" }] : []),
-    { href: "/#contact", text: "Contacto" },
+    { href: "#about", text: "Sobre mí" },
+    { href: "#habilidades", text: "Habilidades" },
+    ...(showProjects ? [{ href: "#proyectos", text: "Proyectos" }] : []),
+    { href: "#contact", text: "Contacto" },
   ];
 
   return (
@@ -58,14 +70,14 @@ export function Header() {
         
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           {navLinks.map((link, index) => (
-            <Link 
-              key={link.href} 
-              href={link.href} 
-              className="relative transition-all duration-300 hover:text-primary group"
+            <button
+              key={link.href}
+              onClick={() => handleLinkClick(link.href)}
+              className="relative transition-all duration-300 hover:text-primary group cursor-pointer"
             >
               <span className="relative z-10">{link.text}</span>
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
-            </Link>
+            </button>
           ))}
         </nav>
         
@@ -111,15 +123,14 @@ export function Header() {
         <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border/50 animate-slide-up">
           <nav className="flex flex-col items-center gap-6 py-6 text-lg font-medium">
             {navLinks.map((link, index) => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className="transition-all duration-300 hover:text-primary hover:scale-105 py-2 px-4 rounded-lg hover:bg-primary/10" 
-                onClick={handleLinkClick}
+              <button
+                key={link.href}
+                onClick={() => handleLinkClick(link.href)}
+                className="transition-all duration-300 hover:text-primary hover:scale-105 py-2 px-4 rounded-lg hover:bg-primary/10 cursor-pointer" 
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 {link.text}
-              </Link>
+              </button>
             ))}
             
             {/* Enlaces sociales en móvil */}
