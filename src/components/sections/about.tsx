@@ -102,7 +102,7 @@ export function AboutSection() {
                   <CardContent className="flex flex-col items-center justify-center gap-6 text-center">
                     <div className="relative">
                       <Image
-                        src="/images/oracle-java-badge.svg"
+                        src="https://images.credly.com/images/be8fcaeb-c769-4afc-9897-1ae8f5f660e1/oracle-certified-professional-java-se-11-developer.png"
                         alt="Oracle Certified Professional, Java SE 11 Developer Badge"
                         width={180}
                         height={180}
